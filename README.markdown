@@ -1,5 +1,6 @@
 NOTE: we branched ph7/system-timer to implement support for custom timeout classes. Since some ruby libs (ie, Net::HTTP) use Timeout::Error, if you're rescuing their timeouts deep in your code you could mistakenly rescue the SystemTimer exception.  
-See the following code:
+
+In the following code, the inner rescue will rescue the exception from the outer block.
 
 	require 'system_timer'
 	begin
@@ -14,12 +15,15 @@ See the following code:
 				puts "Net::HTTP will timeout now"
 				raise Timeout::Error
 			rescue Timeout::Error
+				# this rescues SystemTimer's Timeout::Error exception because it was triggered before Net::HTTP's 
 				puts "rescued Timeout::Error of Net::HTTP... or not?"
 			end
 		}
 	rescue Timeout::Error
+		# this line is never reached
 		puts "I'm pretty sure the exception I rescued is from SystemTimer"
 	end
+
 
 
 == Synopsis
