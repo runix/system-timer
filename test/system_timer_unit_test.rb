@@ -9,7 +9,7 @@ unit_tests do
     SystemTimer.stubs(:install_next_timer)
     SystemTimer.stubs(:restore_original_configuration)
 
-    pool.expects(:add_timer).with(5).returns(stub_everything)
+    pool.expects(:add_timer).with(5,nil).returns(stub_everything)
     SystemTimer.timeout_after(5) {}    
   end
 
